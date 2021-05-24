@@ -1,0 +1,60 @@
+<div class="container text-center mt-5 mb-5">
+	<mat-tab-group animationDuration="0ms">
+	  <mat-tab label="Search by Pin Code">
+	  	<div class="container mt-5 text-center">
+		  	<form (ngSubmit)="searchByPin()" [formGroup]="secondFormGroup">
+		  		<mat-form-field>
+					  <mat-label>Enter Pin code</mat-label>
+					  <input type="text" formControlName="pincode" name="pincode" required matInput pattern="\d+">
+					  	<mat-error *ngIf="secondFormGroupControl.pincode.hasError('required') || secondFormGroupControl.pincode.hasError('minlength') || secondFormGroupControl.pincode.hasError('maxlength')">
+      							Select valid pin code
+    						  </mat-error>
+				</mat-form-field> 
+			    
+			    <div class="mt-3">
+		  			<button mat-raised-button color="accent" type="submit" class="btn btn-md">Search</button>
+		  		</div>
+		  	</form>
+	  </div>
+	  </mat-tab>
+	  <mat-tab label="Search by District">
+	  	<div class="container mt-5 mb-5 text-center">
+	  		<form (ngSubmit)="searchByDistrict()" [formGroup]="firstFormGroup">
+		  		<div class="row">
+
+		  			<div class="offset-md-4">
+		  				<mat-form-field>
+							  <mat-label>Select State</mat-label>
+							  <mat-select formControlName="state" name="state" (selectionChange)="callDistricts()">
+							    <mat-option *ngFor="let st of stateList" value="{{st['state_id']}}">{{st['state_name']}}</mat-option>
+							 
+							  </mat-select>
+							  	<mat-error *ngIf="firstFormGroupControl.state.hasError('required')">
+      							Select valid state
+    						  </mat-error>
+						</mat-form-field>
+						<mat-form-field class="ml-2">
+							  <mat-label>Select District</mat-label>
+							  <mat-select formControlName="district" name="district">
+							    <mat-option *ngFor="let d of districtList" value="{{d['district_id']}}">{{d['district_name']}}</mat-option>
+							    
+							  </mat-select>
+							  <mat-error *ngIf="firstFormGroupControl.district.hasError('required')">
+      							Select valid district
+    						  </mat-error>
+						</mat-form-field>
+		  			</div>
+
+		  		</div>
+		  		<div class="row text-center mt-4">
+		  			<div class="offset-md-6">
+		  			<button type="submit" mat-raised-button color="primary" class="btn btn-md">Search</button>
+		  			</div>
+		  		</div>
+		  	</form>
+
+
+		 </div>
+	  </mat-tab>
+	</mat-tab-group>
+</div>
