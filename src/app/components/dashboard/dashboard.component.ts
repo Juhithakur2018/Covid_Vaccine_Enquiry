@@ -16,10 +16,15 @@ export class DashboardComponent implements OnInit {
 
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
+  thirdFormGroup: FormGroup;
 
   stateList=[];
   districtList=[];
+  centerList=[];
 
+  searchParam=0;
+
+  isEditable=true;
 
   constructor(private vaccineService:VaccineService,
   private _formBuilder: FormBuilder
@@ -32,6 +37,10 @@ export class DashboardComponent implements OnInit {
 
     this.secondFormGroup = this._formBuilder.group({
       pincode: ['', [Validators.required,Validators.minLength(6),Validators.maxLength(6)]]
+    });
+
+    this.thirdFormGroup = this._formBuilder.group({
+      date: ['',Validators.required]
     });
   }
 
@@ -50,6 +59,10 @@ export class DashboardComponent implements OnInit {
     return this.firstFormGroup.controls;
   }
 
+  get thirdFormGroupControl() {
+    return this.thirdFormGroup.controls;
+  }
+
   callStates(){
   this.vaccineService.getAllStates().subscribe(data => {
   this.stateList=data.states;
@@ -64,18 +77,56 @@ export class DashboardComponent implements OnInit {
   }, error => console.log(error));
   }
 
-  searchByPin(){
+  searchByPin(stepper:any){
   console.log("I am from pincode!");
   if(this.secondFormGroup.value.pincode && !this.secondFormGroupControl.pincode.invalid){
+  this.searchParam=1;
+  stepper.next();
   console.log(this.secondFormGroup.value.pincode)
   }
  
   }
 
-  searchByDistrict(){
+  searchByDistrict(stepper:any){
 	  if(this.firstFormGroup.value.state && this.firstFormGroup.value.district){
+	  	this.searchParam=2;
+	  	stepper.next();
 	  	console.log(this.firstFormGroup.value.state,this.firstFormGroup.value.district);
 	  } 
+  }
+
+  parseDate(d:any) {
+  	var todayTime = d;
+	var month = todayTime.getMonth()+1;
+	var day = todayTime.getDate();
+	var year = todayTime.getFullYear();
+	return day + "-" + month + "-" + year;
+  }
+
+  finalSubmit(stepper:any) {
+  if(this.thirdFormGroup.value.date){
+  	var dt=this.parseDate(this.thirdFormGroup.value.date);
+  	if(this.searchParam === 1){
+
+  		console.log("Through Pin Code");
+  		this.vaccineService.getVaccinationCentersByPincode(dt,this.secondFormGroup.value.pincode).subscribe(data => {
+  			this.centerList=data.sessions;
+  			console.log(this.centerList);
+  		}, error => console.log(error));
+
+  	} else if(this.searchParam === 2){
+
+  		console.log("Through District");
+  		this.vaccineService.getVaccinationCentersByDistrict(dt,this.firstFormGroup.value.district).subscribe(data => {
+  			this.centerList=data.sessions;
+  			console.log(this.centerList);
+  		}, error => console.log(error));
+
+  	}
+  	console.log(this.thirdFormGroup.value.date);
+  	this.isEditable=false;
+  	stepper.next();
+  	}
   }
 
 }

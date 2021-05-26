@@ -9,3 +9,8 @@
 .mt-neg-5{
 	margin-top: -8px;
 }
+
+.pos-cent {
+	margin-right: auto;
+	margin-left: auto;
+}
