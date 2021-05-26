@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import {MatAccordion} from '@angular/material/expansion';
 import {VaccineService} from '../../services/vaccine.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { ActivatedRoute,Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -26,7 +27,8 @@ export class DashboardComponent implements OnInit {
   isEditable=true;
 
   constructor(private vaccineService:VaccineService,
-  private _formBuilder: FormBuilder
+  private _formBuilder: FormBuilder,
+  private router:Router
   ) { 
 
   	this.firstFormGroup = this._formBuilder.group({
@@ -128,15 +130,10 @@ export class DashboardComponent implements OnInit {
   	}
   }
 
-  cancelOp(stepper:any) {
-  this.firstFormGroup.patchValue({
-    state:'',
-    district:''
-    });
-   this.secondFormGroup.patchValue({
-    pincode:''
-    });
-  stepper.reset();
+  resetForm(stepper:any){
+	  this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+	    this.router.navigate(['/dashboard']);
+	  }); 
   }
 
 }
