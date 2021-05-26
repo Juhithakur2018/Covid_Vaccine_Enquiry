@@ -23,6 +23,7 @@ import {AuthInterceptor} from './services/auth.interceptor';
 import { LoaderService } from './services/loader.service';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatIconModule} from '@angular/material/icon';
+import {MatChipsModule} from '@angular/material/chips';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import {MatIconModule} from '@angular/material/icon';
     MatNativeDateModule,
     MatProgressSpinnerModule,
     MatExpansionModule,
-    MatIconModule
+    MatIconModule,
+    MatChipsModule
   ],
   providers: [[{provide: HTTP_INTERCEPTORS,useClass:AuthInterceptor,multi:true}],[LoaderService]],
   bootstrap: [AppComponent]
