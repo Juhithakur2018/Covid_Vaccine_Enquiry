@@ -21,6 +21,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {AuthInterceptor} from './services/auth.interceptor';
 import { LoaderService } from './services/loader.service';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -44,7 +46,9 @@ import { LoaderService } from './services/loader.service';
     MatStepperModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatExpansionModule,
+    MatIconModule
   ],
   providers: [[{provide: HTTP_INTERCEPTORS,useClass:AuthInterceptor,multi:true}],[LoaderService]],
   bootstrap: [AppComponent]

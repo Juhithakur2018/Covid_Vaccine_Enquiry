@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import {MatAccordion} from '@angular/material/expansion';
 import {VaccineService} from '../../services/vaccine.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import Swal from 'sweetalert2';
@@ -10,9 +11,7 @@ import Swal from 'sweetalert2';
 })
 export class DashboardComponent implements OnInit {
 
-  /*pincode="";
-  state="";
-  district="";*/
+  @ViewChild(MatAccordion) accordion: MatAccordion;
 
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
@@ -40,7 +39,7 @@ export class DashboardComponent implements OnInit {
     });
 
     this.thirdFormGroup = this._formBuilder.group({
-      date: ['',Validators.required]
+      date: [new Date(),Validators.required]
     });
   }
 
@@ -78,11 +77,11 @@ export class DashboardComponent implements OnInit {
   }
 
   searchByPin(stepper:any){
-  console.log("I am from pincode!");
+  //console.log("I am from pincode!");
   if(this.secondFormGroup.value.pincode && !this.secondFormGroupControl.pincode.invalid){
   this.searchParam=1;
   stepper.next();
-  console.log(this.secondFormGroup.value.pincode)
+  //console.log(this.secondFormGroup.value.pincode)
   }
  
   }
@@ -91,7 +90,7 @@ export class DashboardComponent implements OnInit {
 	  if(this.firstFormGroup.value.state && this.firstFormGroup.value.district){
 	  	this.searchParam=2;
 	  	stepper.next();
-	  	console.log(this.firstFormGroup.value.state,this.firstFormGroup.value.district);
+	  	//console.log(this.firstFormGroup.value.state,this.firstFormGroup.value.district);
 	  } 
   }
 
@@ -108,7 +107,7 @@ export class DashboardComponent implements OnInit {
   	var dt=this.parseDate(this.thirdFormGroup.value.date);
   	if(this.searchParam === 1){
 
-  		console.log("Through Pin Code");
+  		//console.log("Through Pin Code");
   		this.vaccineService.getVaccinationCentersByPincode(dt,this.secondFormGroup.value.pincode).subscribe(data => {
   			this.centerList=data.sessions;
   			console.log(this.centerList);
@@ -116,17 +115,28 @@ export class DashboardComponent implements OnInit {
 
   	} else if(this.searchParam === 2){
 
-  		console.log("Through District");
+  		//console.log("Through District");
   		this.vaccineService.getVaccinationCentersByDistrict(dt,this.firstFormGroup.value.district).subscribe(data => {
   			this.centerList=data.sessions;
   			console.log(this.centerList);
   		}, error => console.log(error));
 
   	}
-  	console.log(this.thirdFormGroup.value.date);
-  	this.isEditable=false;
+  	//console.log(this.thirdFormGroup.value.date);
+  	//this.isEditable=false;
   	stepper.next();
   	}
+  }
+
+  cancelOp(stepper:any) {
+  this.firstFormGroup.patchValue({
+    state:'',
+    district:''
+    });
+   this.secondFormGroup.patchValue({
+    pincode:''
+    });
+  stepper.reset();
   }
 
 }
