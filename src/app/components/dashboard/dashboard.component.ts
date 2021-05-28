@@ -21,10 +21,15 @@ export class DashboardComponent implements OnInit {
   stateList=[];
   districtList=[];
   centerList=[];
+  filtercenterList=[];
 
   searchParam=0;
 
   isEditable=true;
+
+  eighteen_plus=false;
+  fortyfive_plus=false;
+  avl_status=false;
 
   constructor(private vaccineService:VaccineService,
   private _formBuilder: FormBuilder,
@@ -112,6 +117,7 @@ export class DashboardComponent implements OnInit {
   		//console.log("Through Pin Code");
   		this.vaccineService.getVaccinationCentersByPincode(dt,this.secondFormGroup.value.pincode).subscribe(data => {
   			this.centerList=data.sessions;
+  			this.filtercenterList=data.sessions;
   			console.log(this.centerList);
   		}, error => console.log(error));
 
@@ -120,6 +126,7 @@ export class DashboardComponent implements OnInit {
   		//console.log("Through District");
   		this.vaccineService.getVaccinationCentersByDistrict(dt,this.firstFormGroup.value.district).subscribe(data => {
   			this.centerList=data.sessions;
+  			this.filtercenterList=data.sessions;
   			console.log(this.centerList);
   		}, error => console.log(error));
 
@@ -135,5 +142,14 @@ export class DashboardComponent implements OnInit {
 	    this.router.navigate(['/dashboard']);
 	  }); 
   }
+
+  dis1=false;
+  dis2=false;
+
+  filterCriteria() {
+ 
+  } 
+
+   
 
 }

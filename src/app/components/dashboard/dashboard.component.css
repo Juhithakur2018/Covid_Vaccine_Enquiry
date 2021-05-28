@@ -36,3 +36,15 @@
 	margin-top: 1px;
 	color: red;
 }
+
+.example-section {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  height: 60px;
+}
+
+.example-margin {
+  margin: 0 10px;
+}

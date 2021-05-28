@@ -24,13 +24,17 @@ import { LoaderService } from './services/loader.service';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatIconModule} from '@angular/material/icon';
 import {MatChipsModule} from '@angular/material/chips';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatRadioModule} from '@angular/material/radio';
+import { CertificateComponent } from './components/certificate/certificate.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
     NavbarComponent,
-    LoaderComponent
+    LoaderComponent,
+    CertificateComponent
   ],
   imports: [
     BrowserModule,
@@ -50,7 +54,9 @@ import {MatChipsModule} from '@angular/material/chips';
     MatProgressSpinnerModule,
     MatExpansionModule,
     MatIconModule,
-    MatChipsModule
+    MatChipsModule,
+    MatCheckboxModule,
+    MatRadioModule
   ],
   providers: [[{provide: HTTP_INTERCEPTORS,useClass:AuthInterceptor,multi:true}],[LoaderService]],
   bootstrap: [AppComponent]

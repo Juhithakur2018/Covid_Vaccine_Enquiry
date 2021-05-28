@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http'
+import {HttpClient,HttpHeaders} from '@angular/common/http'
 import {Observable} from 'rxjs';
 
 @Injectable({
@@ -23,5 +23,19 @@ export class VaccineService {
 
   getVaccinationCentersByPincode(date:string,pin:number): Observable<any> {
     return this.http.get(`https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByPin?pincode=${pin}&date=${date}`);
+  }
+
+  getOtp(mob:any): Observable<any> {
+    return this.http.post(`https://cdn-api.co-vin.in/api/v2/auth/public/generateOTP`, mob);
+  }
+
+  confirmOtp(data:any): Observable<any> {
+    return this.http.post(`https://cdn-api.co-vin.in/api/v2/auth/public/confirmOTP`, data);
+  }
+
+  certdownload(id:any): Observable<any> {
+  	let headers = new HttpHeaders();
+  	headers = headers.set('Accept', 'application/pdf');
+    return this.http.get(`https://cdn-api.co-vin.in/api/v2/registration/certificate/public/download?beneficiary_reference_id=${id}`,{ headers: headers, responseType: 'blob' });
   }
 }
