@@ -4,6 +4,7 @@ import { ActivatedRoute,Router } from '@angular/router';
 import {VaccineService} from '../../services/vaccine.service';
 import * as CryptoJS from 'crypto-js';
 import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-certificate',
@@ -62,10 +63,10 @@ export class CertificateComponent implements OnInit {
   	this.vaccineService.getOtp(mob).subscribe((data) => {
   		//console.log(data);
   		this.txnId=data.txnId;
+  		this.showCnfOtp=true;
+  	},error =>{ console.log(error); Swal.fire('Oops...', error['error'], 'error')});
 
-  	},error => console.log(error));
-
-  	this.showCnfOtp=true;
+  	
   }
   
   }
@@ -81,10 +82,11 @@ export class CertificateComponent implements OnInit {
   	}
   	this.vaccineService.confirmOtp(data).subscribe(data => {
   	sessionStorage.setItem('token',data.token);
-  	//console.log(data);
-  	},error => console.log(error));
-  	//console.log(data);
   	this.showRefId=true;
+  	//console.log(data);
+  	},error => {console.log(error);Swal.fire('Oops...', error['error'].error, 'error')});
+  	//console.log(data);
+  	
   }
   }
 
@@ -98,9 +100,10 @@ export class CertificateComponent implements OnInit {
   	this.vaccineService.certdownload(this.thirdFormGroup.value.refId.trim()).subscribe(data=>{
   	//console.log(data);
   	this.hr=this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(data));
+  	Swal.fire('Done!', "Certificate Ready!", 'success');
   	this.toggle_down=true;
 
-  	},error => console.log(error));
+  	},error => {console.log(error);Swal.fire('Oops...', error['error'].error, 'error')});
   	
   	}
   }

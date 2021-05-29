@@ -9,7 +9,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 /* width */
 ::-webkit-scrollbar {
-    width: 15px;
+    width: 12px;
 }
 
 /* Track */
@@ -34,3 +34,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   pointer-events: none !important;
 }
 
+a:hover {
+	text-decoration: none;
+}
